@@ -1,0 +1,62 @@
+#（1）创建讲义中的students表；
+#查看已有的表
+list
+#创建schema
+create 'students','ID','Description','Courses','Home'
+#查看创建的表信息
+describe 'students'
+#插入数据
+put 'students','001','Description:Name','Li Lei'
+put 'students','001','Description:Height','176'
+put 'students','001','Courses:Chinese','80'
+put 'students','001','Courses:Math','90'
+put 'students','001','Courses:Physics','95'
+put 'students','001','Home:Province','Zhejiang'
+
+put 'students','002','Description:Name','Han Meimei'
+put 'students','002','Description:Height','183'
+put 'students','002','Courses:Chinese','88'
+put 'students','002','Courses:Math','77'
+put 'students','002','Courses:Physics','66'
+put 'students','002','Home:Province','Beijing'
+
+put 'students','003','Description:Name','Xiao Ming'
+put 'students','003','Description:Height','162'
+put 'students','003','Courses:Chinese','90'
+put 'students','003','Courses:Math','90'
+put 'students','003','Courses:Physics','95'
+put 'students','003','Home:Province','Shanghai'
+
+#（2）扫描创建后的students表；
+scan 'students'
+
+#（3）查询学生来自的省；
+scan 'students',{COLUMNS => 'Home:Province'}
+
+#（4）增加新的列Courses:English，并添加数据；
+put 'students','001','Courses:English','95'
+put 'students','002','Courses:English','95'
+put 'students','003','Courses:English','95'
+scan 'students',{COLUMNS => 'Courses:English'}
+
+#（5）增加新的列族Contact和新列Contact:Email，并添加数据；
+#使用help "alter"查看相关帮助
+help "alter"
+#alter前需要先disable
+disable 'students'
+#添加列族
+alter 'students', NAME => 'Contact', VERSIONS => 5
+#然后再enable
+enable 'students'
+#添加数据
+put 'students','001','Contact:Email','lilei@qq.com'
+put 'students','002','Contact:Email','hanmeimei@qq.com'
+put 'students','003','Contact:Email','xiaoming@qq.com'
+
+scan 'students',{COLUMNS => 'Contact:Email'}
+
+#（6）删除students表。
+#删除之前需要disable
+disable 'students'
+#随后即可删除
+drop 'students'
