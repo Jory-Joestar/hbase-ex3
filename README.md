@@ -1,0 +1,1 @@
+## 报告是pdf文件，HBase Shell的命令在HBaseShellCode.txt中，java程序为src\main\java\com\hbase\HbOperation.java
